@@ -35,6 +35,7 @@ import spack.config
 import spack.spec
 from spack.error import SpackError
 
+
 def _check_concrete(spec):
     """If the spec is not concrete, raise a ValueError"""
     if not spec.concrete:
