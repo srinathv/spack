@@ -623,6 +623,7 @@ class BaseContext(tengine.Context):
             msg = 'unknown, software installed outside of Spack'
             return msg
 
+<<<<<<< HEAD
         # This is quite simple right now, but contains information on how
         # to call different build system classes.
         for attr in ('configure_args', 'cmake_args'):
@@ -633,6 +634,9 @@ class BaseContext(tengine.Context):
                 # The method doesn't exist in the current spec,
                 # or it's not usable
                 pass
+        if os.path.exists(pkg.install_configure_args_path):
+            with open(pkg.install_configure_args_path, 'r') as args_file:
+                return args_file.read()
 
         # Returning a false-like value makes the default templates skip
         # the configure option section
