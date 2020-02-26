@@ -623,7 +623,6 @@ class BaseContext(tengine.Context):
             msg = 'unknown, software installed outside of Spack'
             return msg
 
-<<<<<<< HEAD
         # This is quite simple right now, but contains information on how
         # to call different build system classes.
         for attr in ('configure_args', 'cmake_args'):
