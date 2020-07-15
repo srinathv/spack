@@ -28,7 +28,6 @@ class Unifyfs(AutotoolsPackage):
     variant('pmi', default='False', description='Enable PMI2 build options')
     variant('pmix', default='False', description='Enable PMIx build options')
 
-    depends_on('openssl')
     depends_on('autoconf',  type='build')
     depends_on('automake',  type='build')
     depends_on('libtool',   type='build')
@@ -37,13 +36,13 @@ class Unifyfs(AutotoolsPackage):
 
     # Required dependencies
     depends_on('flatcc')
-    # Latest version of GOTCHA has API changes that break UnifyFS.
-    # Updates to UnifyFS are coming in order to fix this.
-    depends_on('gotcha@0.0.2')
+    depends_on('gotcha@0.0.2', when='@:0.9.0')
+    depends_on('gotcha@1.0.3:', when='@0.9.1:')
     depends_on('leveldb')
     depends_on('margo')
     depends_on('mercury+bmi+sm')
     depends_on('mpi')
+    depends_on('openssl')
 
     # Optional dependencies
     depends_on('hdf5', when='+hdf5')
@@ -53,6 +52,10 @@ class Unifyfs(AutotoolsPackage):
     # Known compatibility issues with ifort and xlf. Fixes coming.
     conflicts('%intel', when='+fortran')
     conflicts('%xl', when='+fortran')
+
+    # Fix broken --enable-mpi-mount config option for version 0.9.0
+    # See https://github.com/LLNL/UnifyFS/issues/467
+    patch('auto-mount.patch', when='@0.9.0')
 
     # Parallel disabled to prevent tests from being run out-of-order when
     # installed with the --test={root, all} option.

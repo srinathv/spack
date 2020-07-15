@@ -65,6 +65,10 @@ class Hpx(CMakePackage, CudaPackage):
     depends_on('boost@1.55.0:', when='@:1.1.0')
     depends_on('hwloc@1.6:', when='@:1.1.0')
 
+    # boost 1.73.0 build problem with HPX 1.4.0 and 1.4.1
+    # https://github.com/STEllAR-GROUP/hpx/issues/4728#issuecomment-640685308
+    depends_on('boost@:1.72.0', when='@:1.4')
+
     # CXX Standard
     depends_on('boost cxxstd=11', when='cxxstd=11')
     depends_on('boost cxxstd=14', when='cxxstd=14')
@@ -159,7 +163,8 @@ class Hpx(CMakePackage, CudaPackage):
             '-DBOOST_ROOT={0}'.format(spec['boost'].prefix),
             '-DHWLOC_ROOT={0}'.format(spec['hwloc'].prefix),
             '-DHPX_WITH_BOOST_ALL_DYNAMIC_LINK=ON',
-            '-DBUILD_SHARED_LIBS=ON'
+            '-DBUILD_SHARED_LIBS=ON',
+            '-DHPX_DATASTRUCTURES_WITH_ADAPT_STD_TUPLE=OFF'
         ])
 
         return args
