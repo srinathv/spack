@@ -3,23 +3,6 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install cvise
-#
-# You can edit this file again by typing:
-#
-#     spack edit cvise
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
-
 from spack.package import *
 
 
@@ -39,7 +22,6 @@ class Cvise(CMakePackage):
     version("master", branch="master")
     version("2.6.0", sha256="770b88851901c8c7ce14c47809ba9989e99de35c564917cf2f686a7e48484b75")
 
-    # FIXME: Add dependencies if required.
     depends_on("flex")
     depends_on("clang")
     depends_on("python")
