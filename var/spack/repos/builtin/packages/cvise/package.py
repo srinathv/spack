@@ -24,9 +24,10 @@ from spack.package import *
 
 
 class Cvise(CMakePackage):
-    """FIXME: Put a proper description of your package here."""
+    """C-Vise is a super-parallel Python port of the C-Reduce. The port is fully compatible to the C-Reduce and uses the same efficient LLVM-based C/C++ reduction tool named clang_delta.
 
-    # FIXME: Add a proper url for your package's homepage here.
+"""
+
     homepage = "https://github.com/marxin/cvise"
     url = "https://github.com/marxin/cvise/archive/refs/tags/v2.6.0.tar.gz"
     git = "https://github.com/marxin/cvise"
