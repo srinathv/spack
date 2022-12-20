@@ -33,19 +33,19 @@ class Cvise(CMakePackage):
 
     # FIXME: Add a list of GitHub accounts to
     # notify when the package is updated.
-     maintainers = ["marxin", "srinathv"]
+    maintainers = ["marxin", "srinathv"]
 
     version("master", branch="master")
     version("2.6.0", sha256="770b88851901c8c7ce14c47809ba9989e99de35c564917cf2f686a7e48484b75")
 
     # FIXME: Add dependencies if required.
-     depends_on("flex")
-     depends_on("clang")
-     depends_on("python")
-     depends_on("py-pebble")
-     depends_on("py-chardet")
-     depends_on("py-psutil")
-     depends_on("unidef")
+    depends_on("flex")
+    depends_on("clang")
+    depends_on("python")
+    depends_on("py-pebble")
+    depends_on("py-chardet")
+    depends_on("py-psutil")
+    depends_on("unidef")
     
 
     def cmake_args(self):
