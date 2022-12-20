@@ -27,17 +27,26 @@ class Cvise(CMakePackage):
     """FIXME: Put a proper description of your package here."""
 
     # FIXME: Add a proper url for your package's homepage here.
-    homepage = "https://www.example.com"
+    homepage = "https://github.com/marxin/cvise"
     url = "https://github.com/marxin/cvise/archive/refs/tags/v2.6.0.tar.gz"
+    git = "https://github.com/marxin/cvise"
 
     # FIXME: Add a list of GitHub accounts to
     # notify when the package is updated.
-    # maintainers = ["github_user1", "github_user2"]
+     maintainers = ["marxin", "srinathv"]
 
+    version("master", branch="master")
     version("2.6.0", sha256="770b88851901c8c7ce14c47809ba9989e99de35c564917cf2f686a7e48484b75")
 
     # FIXME: Add dependencies if required.
-    # depends_on("foo")
+     depends_on("flex")
+     depends_on("clang")
+     depends_on("python")
+     depends_on("py-pebble")
+     depends_on("py-chardet")
+     depends_on("py-psutil")
+     depends_on("unidef")
+    
 
     def cmake_args(self):
         # FIXME: Add arguments other than
