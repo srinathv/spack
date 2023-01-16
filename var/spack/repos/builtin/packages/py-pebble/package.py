@@ -5,14 +5,14 @@
 
 from spack.package import *
 
+
 class PyPebble(PythonPackage):
-    """Pebble provides a neat API to manage threads and 
-    processes within an application."""
+    """Threading and multiprocessing eye-candy."""
 
-    pypi = "pebble/pebble-5.0.3.zip"
-    maintainers = ["noxdafox", "srinathv"]
+    homepage = "https://github.com/noxdafox/pebble"
+    pypi = "Pebble/Pebble-5.0.3.tar.gz"
 
-    version("5.0.3", sha256="c85b91ab752900c9a857a7ecd8981a5efa41918e50a4b52c20e69964b3d3dac3")
+    version("5.0.3", sha256="bdcfd9ea7e0aedb895b204177c19e6d6543d9962f4e3402ebab2175004863da8")
 
+    depends_on("python@3.6:", type=("build", "run"))
     depends_on("py-setuptools", type="build")
-   
