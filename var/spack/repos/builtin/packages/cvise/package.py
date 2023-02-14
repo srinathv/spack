@@ -1,39 +1,36 @@
-# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2023 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
 from spack.package import *
 
 
 class Cvise(CMakePackage):
-    """C-Vise is a super-parallel Python port of the C-Reduce. The port is fully compatible to the C-Reduce and uses the same efficient LLVM-based C/C++ reduction tool named clang_delta.
-
-"""
+    """C-Vise is a super-parallel Python port of the C-Reduce. The port is
+    fully compatible to the C-Reduce and uses the same efficient LLVM-based
+    C/C++ reduction tool named clang_delta."""
 
     homepage = "https://github.com/marxin/cvise"
-    url = "https://github.com/marxin/cvise/archive/refs/tags/v2.6.0.tar.gz"
-    git = "https://github.com/marxin/cvise"
-
-    # FIXME: Add a list of GitHub accounts to
-    # notify when the package is updated.
-    maintainers = ["marxin", "srinathv"]
+    url = "https://github.com/marxin/cvise"
+    git = "https://github.com/marxin/cvise.git"
 
     version("master", branch="master")
-    version("2.6.0", sha256="770b88851901c8c7ce14c47809ba9989e99de35c564917cf2f686a7e48484b75")
+    version("2.7.0", tag="v2.7.0")
 
-    depends_on("flex")
-    depends_on("clang")
-    depends_on("python")
-    depends_on("py-pebble")
-    depends_on("py-chardet")
-    depends_on("py-psutil")
-    depends_on("unidef")
-    
+    variant("pytest", default=False, description="Add py-pytest as dependency")
+    variant("colordiff", default=False, description="Add colordiff support")
+
+    depends_on("cmake", type="build")
+    depends_on("flex", type=("build", "run"))
+    depends_on("llvm@9.0.0:", type=("build", "run"))
+    depends_on("python@3.6:", type=("build", "run"))
+    depends_on("py-pebble", type=("build", "run"))
+    depends_on("py-chardet", type=("build", "run"))
+    depends_on("py-psutil", type=("build", "run"))
+    depends_on("unifdef", type=("build", "run"))
+
+    depends_on("py-pytest", when="+pytest", type=("build", "run"))
+    depends_on("colordiff", when="+colordiff", type=("build", "run"))
 
     def cmake_args(self):
-        # FIXME: Add arguments other than
-        # FIXME: CMAKE_INSTALL_PREFIX and CMAKE_BUILD_TYPE
-        # FIXME: If not needed delete this function
-        args = []
-        return args
+        return ["-DPYTHON_EXECUTABLE=" + self.spec["python"].command.path]

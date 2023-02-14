@@ -73,7 +73,7 @@ class Wrf(Package):
 
     version(
         "4.4.2",
-        sha256="5d6237f1500c44a33626362936ba0a4388360c5070d9d53262e5a950c586da85",
+        sha256="488b992e8e994637c58e3c69e869ad05acfe79419c01fbef6ade1f624e50dc3a",
         url="https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz",
     )
     version(
@@ -127,6 +127,7 @@ class Wrf(Package):
         description="Parallel IO support through Pnetcdf library",
     )
     variant("chem", default=False, description="Enable WRF-Chem", when="@4:")
+    variant("netcdf_classic", default=False, description="Use NetCDF without HDF5 compression")
 
     patch("patches/3.9/netcdf_backport.patch", when="@3.9.1.1")
     patch("patches/3.9/tirpc_detect.patch", when="@3.9.1.1")
@@ -228,6 +229,8 @@ class Wrf(Package):
         # Add WRF-Chem module
         if "+chem" in self.spec:
             env.set("WRF_CHEM", 1)
+        if "+netcdf_classic" in self.spec:
+            env.set("NETCDF_classic", 1)
         # This gets used via the applied patch files
         env.set("NETCDFF", self.spec["netcdf-fortran"].prefix)
         env.set("PHDF5", self.spec["hdf5"].prefix)
