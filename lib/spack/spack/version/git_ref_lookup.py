@@ -22,11 +22,16 @@ from .common import VersionLookupError
 from .lookup import AbstractRefLookup
 
 # regular expression for semantic versioning
-SEMVER_REGEX = re.compile(
-    ".+(?P<semver>([0-9]+)[.]([0-9]+)[.]([0-9]+)"
-    "(?:-([0-9A-Za-z-]+(?:[.][0-9A-Za-z-]+)*))?"
-    "(?:[+][0-9A-Za-z-]+)?)"
-)
+_VERSION_CORE = r"\d+\.\d+\.\d+"
+_IDENT = r"[0-9A-Za-z-]+"
+_SEPARATED_IDENT = rf"{_IDENT}(?:\.{_IDENT})*"
+_PRERELEASE = rf"\-{_SEPARATED_IDENT}"
+_BUILD = rf"\+{_SEPARATED_IDENT}"
+_SEMVER = rf"{_VERSION_CORE}(?:{_PRERELEASE})?(?:{_BUILD})?"
+
+# clamp on the end, so versions like v1.2.3-rc1 will match
+# without the leading 'v'.
+SEMVER_REGEX = re.compile(rf"{_SEMVER}$")
 
 
 class GitRefLookup(AbstractRefLookup):
@@ -74,7 +79,7 @@ class GitRefLookup(AbstractRefLookup):
     def pkg(self):
         if not self._pkg:
             try:
-                pkg = spack.repo.path.get_pkg_class(self.pkg_name)
+                pkg = spack.repo.PATH.get_pkg_class(self.pkg_name)
                 pkg.git
             except (spack.repo.RepoError, AttributeError) as e:
                 raise VersionLookupError(f"Couldn't get the git repo for {self.pkg_name}") from e
@@ -186,11 +191,10 @@ class GitRefLookup(AbstractRefLookup):
                         commit_to_version[tag_commit] = v
                         break
                 else:
-                    # try to parse tag to copare versions spack does not know
-                    match = SEMVER_REGEX.match(tag)
+                    # try to parse tag to compare versions spack does not know
+                    match = SEMVER_REGEX.search(tag)
                     if match:
-                        semver = match.groupdict()["semver"]
-                        commit_to_version[tag_commit] = semver
+                        commit_to_version[tag_commit] = match.group()
 
             ancestor_commits = []
             for tag_commit in commit_to_version:
