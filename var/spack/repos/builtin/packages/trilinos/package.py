@@ -662,6 +662,7 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
                 define_trilinos_enable("SECONDARY_TESTED_CODE", True),
                 define_trilinos_enable("TESTS", False),
                 define_trilinos_enable("Fortran"),
+                define_trilinos_enable("FortranCInterface_VERIFY_CXX_COMPILED", 1 ),
                 define_trilinos_enable("OpenMP"),
                 define_trilinos_enable(
                     "EXPLICIT_INSTANTIATION", "explicit_template_instantiation"
